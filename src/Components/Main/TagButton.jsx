@@ -7,7 +7,6 @@ const TagButton = () => {
   const [pinnedTags, setPinnedTags] = useState([]);
   const filteredMealNames = ["Pizza", "Burger", "Salad"]; // Sample data
 
-  // eslint-disable-next-line no-unused-vars
   const handleSearchIconClick = () => {
     setShowSearch(true);
   };
@@ -67,6 +66,7 @@ const TagButton = () => {
           strokeWidth={1.5}
           stroke="currentColor"
           className="w-6 h-6"
+          onClick={handleSearchIconClick}
         >
           <path
             strokeLinecap="round"
