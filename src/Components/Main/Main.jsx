@@ -8,7 +8,7 @@ import React, {
 import { Avatar } from "@material-tailwind/react";
 import avatar from "../../assets/images/avatar.jpg";
 import { Button } from "@material-tailwind/react";
-import addImage from "../../assets/images/add-image.png";
+import addImage from "../../assets/images/addImage.png";
 import { AuthContext } from "../AppContext/AppContext";
 import {
   doc,
