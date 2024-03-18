@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useState } from "react";
 
 const TagButton = () => {
@@ -6,6 +7,7 @@ const TagButton = () => {
   const [pinnedTags, setPinnedTags] = useState([]);
   const filteredMealNames = ["Pizza", "Burger", "Salad"]; // Sample data
 
+  // eslint-disable-next-line no-unused-vars
   const handleSearchIconClick = () => {
     setShowSearch(true);
   };

@@ -3,6 +3,7 @@ import React from "react";
 import { Avatar } from "@material-tailwind/react";
 import avatar from "../../assets/images/avatar.jpg";
 
+// eslint-disable-next-line react/prop-types
 const Comment = ({ name, comment, image }) => {
   return (
     <div className="flex items-center mt-2 w-full">

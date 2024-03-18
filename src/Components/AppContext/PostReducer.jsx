@@ -1,3 +1,4 @@
+// eslint-disable-next-line react-refresh/only-export-components
 export const postActions = {
   SUBMIT_POST: "SUBMIT_POST",
   HANDLE_ERROR: "HANDLE_ERROR",
@@ -5,6 +6,7 @@ export const postActions = {
   ADD_COMMENT: "ADD_COMMENT",
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const postsStates = {
   error: false,
   posts: [],

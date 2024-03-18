@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, { createContext, useState, useEffect } from "react";
 import {
   GoogleAuthProvider,
@@ -21,6 +22,7 @@ import { useNavigate } from "react-router-dom";
 export const AuthContext = createContext();
 
 //google sign in
+// eslint-disable-next-line react/prop-types
 const AppContext = ({ children }) => {
   const collectionUsersRef = collection(db, "users");
   const provider = new GoogleAuthProvider();
@@ -121,6 +123,7 @@ const AppContext = ({ children }) => {
       navigate("/login");
     }
     return () => userStateChanged();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   //for exporting (useState) every function

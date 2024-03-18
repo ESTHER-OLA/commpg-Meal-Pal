@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useState } from "react";
 import { Input } from "@material-tailwind/react";
 import { Button } from "@material-tailwind/react";
@@ -10,7 +11,7 @@ const Reset = () => {
     <div className="grid grid-cols-1 justify-items-center items-center h-screen">
       <div className="w-96">
         <Typography variant="h6" color="blue-gray" className="pb-4">
-          Enter the email address associated with your account and we 'll send
+          Enter the email address associated with your account and we ll send
           you a link to reset your password
         </Typography>
         <Input

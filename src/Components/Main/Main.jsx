@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, {
   useState,
   useRef,
@@ -143,6 +144,7 @@ const Main = () => {
       });
     };
     return () => postData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [SUBMIT_POST]);
 
   return (

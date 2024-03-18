@@ -21,9 +21,10 @@ import {
 import { Input } from "@material-tailwind/react";
 import Comment from "./Comment";
 
+// eslint-disable-next-line react/prop-types
 const CommentSection = ({ postId }) => {
   const comment = useRef(null);
-  const { user, userData } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const commentRef = doc(collection(db, `posts/${postId}/comments`));
   const [state, dispatch] = useReducer(PostsReducer, postsStates);
   const { ADD_COMMENT, HANDLE_ERROR } = postActions;
@@ -75,7 +76,7 @@ const CommentSection = ({ postId }) => {
           <Avatar
             size="sm"
             variant="circular"
-            src={user?.photoURL || avatar}
+            src={avatar || user?.photoURL}
           ></Avatar>
         </div>
         <div className="w-full pr-2">

@@ -25,7 +25,7 @@ import { db } from "../firebase/firebase";
 import CommentSection from "./CommentSection";
 
 // eslint-disable-next-line react/prop-types
-const PostCard = ({ uid, id, logo, name, email, text, image, timestamp }) => {
+const PostCard = ({ uid, id, logo, email, text, image, timestamp }) => {
   const { user } = useContext(AuthContext);
   const [state, dispatch] = useReducer(PostsReducer, postsStates);
   const likesRef = doc(collection(db, "posts", id, "likes"));
@@ -104,7 +104,7 @@ const PostCard = ({ uid, id, logo, name, email, text, image, timestamp }) => {
     };
     getLikes();
     getComments();
-  }, [id]);
+  }, [ADD_LIKE, HANDLE_ERROR, id]);
 
   const commentCount = comments.length;
 

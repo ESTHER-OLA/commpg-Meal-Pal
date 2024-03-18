@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useContext, useEffect, useState } from "react";
 import {
   Card,
@@ -142,7 +143,7 @@ const Login = () => {
                 </p>
               </Link>
               <div className="mt-6 flex items-center font-roboto text-base justify-center">
-                Don't have an account?
+                Dont have an account?
                 <Link to="/register">
                   <p className="ml-1 font-bold font-roboto text-sm text-blue-500 text-center">
                     Register

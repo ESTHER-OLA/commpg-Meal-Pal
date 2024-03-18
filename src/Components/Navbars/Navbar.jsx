@@ -1,8 +1,10 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../AppContext/AppContext";
 
 const Navbar = () => {
+  // eslint-disable-next-line no-unused-vars
   const { signOutUser, user, userData } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -67,6 +69,7 @@ const Navbar = () => {
           <Link
             to="/Register"
             className="text-gray-800 hover:bg-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium"
+            // eslint-disable-next-line no-unused-vars
             onClick={(signOutUser) => setIsOpen(false)}
           >
             Logout

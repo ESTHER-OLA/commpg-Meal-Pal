@@ -18,5 +18,4 @@ module.exports = {
       { allowConstantExport: true },
     ],
   },
-  "react/no-unknown-property": ["error", { ignore: ["tailwind"] }],
 };
