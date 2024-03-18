@@ -4,7 +4,6 @@ import { Routes, Route } from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
 import Reset from "./Reset";
-import FriendProfile from "./FriendProfile";
 
 const Pages = () => {
   return (
@@ -14,10 +13,6 @@ const Pages = () => {
         <Route path="/login" element={<Login></Login>}></Route>
         <Route path="/register" element={<Register></Register>}></Route>
         <Route path="/reset" element={<Reset></Reset>}></Route>
-        <Route
-          path="/profile/:id"
-          element={<FriendProfile></FriendProfile>}
-        ></Route>
       </Routes>
     </div>
   );

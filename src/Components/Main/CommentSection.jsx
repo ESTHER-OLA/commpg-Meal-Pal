@@ -56,7 +56,7 @@ const CommentSection = ({ postId }) => {
         await onSnapshot(q, (doc) => {
           dispatch({
             type: ADD_COMMENT,
-            comments: doc.docs.map((item) => item.data()),
+            comments: doc.docs?.map((item) => item.data()),
           });
         });
       } catch (err) {

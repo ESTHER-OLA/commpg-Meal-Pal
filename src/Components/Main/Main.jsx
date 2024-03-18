@@ -8,7 +8,7 @@ import React, {
 import { Avatar } from "@material-tailwind/react";
 import avatar from "../../assets/images/avatar.jpg";
 import { Button } from "@material-tailwind/react";
-import addImage from "../../assets/images/add-Image.png";
+import addImage from "../../assets/images/add-image.png";
 import { AuthContext } from "../AppContext/AppContext";
 import {
   doc,
@@ -36,6 +36,7 @@ import PostCard from "./PostCard";
 import TagButton from "./TagButton";
 
 const Main = () => {
+  // Define and populate filteredMealNames
   const { user, userData } = useContext(AuthContext);
   const text = useRef("");
   const scrollRef = useRef("");
@@ -146,7 +147,7 @@ const Main = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="flex flex-col py-4 w-full bg-[#f4f4f4] rounded-3xl shadow-lg">
+      <div className="flex flex-col py-4 w-full bg-[#f4f4f4] rounded-5xl shadow-lg">
         <div className="flex items-center pb-4 pl-4 w-full">
           <Avatar
             size="sm"
@@ -216,7 +217,7 @@ const Main = () => {
           </div>
         </div>
       </div>
-      <TagButton></TagButton>
+      <TagButton />
       <div className="flex flex-col py-4 w-full">
         {state?.error ? (
           <div className="flex justify-center items-center">
@@ -228,6 +229,46 @@ const Main = () => {
           <div>
             {state?.posts?.length > 0 &&
               state?.posts?.map((post, index) => {
+                const timestamp = new Date(post?.timestamp?.toDate());
+
+                // Calculate the difference between now and the post timestamp
+                const now = new Date();
+                const diff = now - timestamp;
+
+                // Convert milliseconds to seconds
+                const seconds = Math.floor(diff / 1000);
+
+                // Calculate years, months, days, hours, and minutes
+                const years = Math.floor(seconds / (365 * 24 * 60 * 60));
+                const months = Math.floor(
+                  (seconds % (365 * 24 * 60 * 60)) / (30 * 24 * 60 * 60)
+                );
+                const days = Math.floor(
+                  (seconds % (30 * 24 * 60 * 60)) / (24 * 60 * 60)
+                );
+                const hours = Math.floor(
+                  (seconds % (24 * 60 * 60)) / (60 * 60)
+                );
+                const minutes = Math.floor((seconds % (60 * 60)) / 60);
+
+                // Construct the timestamp string
+                let timestampString = "";
+                if (years > 0) {
+                  timestampString += `${years}y `;
+                }
+                if (months > 0) {
+                  timestampString += `${months}mo `;
+                }
+                if (days > 0) {
+                  timestampString += `${days}d `;
+                }
+                if (hours > 0) {
+                  timestampString += `${hours}h `;
+                }
+                if (minutes > 0) {
+                  timestampString += `${minutes}m `;
+                }
+
                 return (
                   <PostCard
                     key={index}
@@ -238,13 +279,32 @@ const Main = () => {
                     email={post?.email}
                     image={post?.image}
                     text={post?.text}
-                    timestamp={new Date(
-                      post?.timestamp?.toDate()
-                    )?.toUTCString()}
-                  ></PostCard>
+                    timestamp={timestampString.trim()} // Display the formatted timestamp
+                  />
                 );
               })}
           </div>
+
+          // <div>
+          //   {state?.posts?.length > 0 &&
+          //     state?.posts?.map((post, index) => {
+          //       return (
+          //         <PostCard
+          //           key={index}
+          //           logo={post?.logo}
+          //           id={post?.documentId}
+          //           uid={post?.uid}
+          //           name={post?.name}
+          //           email={post?.email}
+          //           image={post?.image}
+          //           text={post?.text}
+          //           timestamp={new Date(
+          //             post?.timestamp?.toDate()
+          //           )?.toUTCString()}
+          //         ></PostCard>
+          //       );
+          //     })}
+          // </div>
         )}
       </div>
       <div ref={scrollRef}>{/* refference for later */}</div>

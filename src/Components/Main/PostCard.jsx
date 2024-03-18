@@ -5,7 +5,6 @@ import avatar from "../../assets/images/avatar.jpg";
 import like from "../../assets/images/love.png";
 import comment from "../../assets/images/comment.png";
 import remove from "../../assets/images/delete.png";
-// import addFriend from "../../assets/images/add-friend.png";
 import { AuthContext } from "../AppContext/AppContext";
 import {
   PostsReducer,
@@ -19,9 +18,7 @@ import {
   query,
   onSnapshot,
   where,
-  arrayUnion,
   getDocs,
-  updateDoc,
   deleteDoc,
 } from "firebase/firestore";
 import { db } from "../firebase/firebase";
@@ -36,29 +33,12 @@ const PostCard = ({ uid, id, logo, name, email, text, image, timestamp }) => {
   const singlePostDocument = doc(db, "posts", id);
   const { ADD_LIKE, HANDLE_ERROR } = postActions;
   const [open, setOpen] = useState(false);
+  const [comments, setComments] = useState([]);
 
   const handleOpen = (e) => {
     e.preventDefault();
     setOpen(true);
   };
-
-  // const addUser = async () => {
-  //   try {
-  //     const q = query(collection(db, "users"), where("uid", "==", user?.uid));
-  //     const doc = await getDocs(q);
-  //     const data = doc.docs[0].ref;
-  //     await updateDoc(data, {
-  //       friends: arrayUnion({
-  //         id: uid,
-  //         image: logo,
-  //         name: name,
-  //       }),
-  //     });
-  //   } catch (err) {
-  //     alert(err.message);
-  //     console.log(err.message);
-  //   }
-  // };
 
   const handleLike = async (e) => {
     e.preventDefault();
@@ -110,39 +90,48 @@ const PostCard = ({ uid, id, logo, name, email, text, image, timestamp }) => {
         console.log(err.message);
       }
     };
-    return () => getLikes();
-  }, [id, ADD_LIKE, HANDLE_ERROR]);
+    const getComments = async () => {
+      try {
+        const commentsQuery = collection(db, "posts", id, "comments");
+        await onSnapshot(commentsQuery, (doc) => {
+          setComments(doc.docs.map((item) => item.data()));
+        });
+      } catch (err) {
+        dispatch({ type: HANDLE_ERROR });
+        alert(err.message);
+        console.log(err.message);
+      }
+    };
+    getLikes();
+    getComments();
+  }, [id]);
+
+  const commentCount = comments.length;
 
   return (
     <div className="mb-4">
       <div className="flex flex-col border border-white-300 shadow-md py-4 bg-white rounded-t-3xl">
         <div className="flex items-center pb-4 ml-2">
+          {/* Wrap the image with a Link to view profile picture
+      <Link to={`/profile/${uid}`}>
+        <img src={image} alt="User post" />
+      </Link> */}
+          {/* Conditionally render the CTA button in the profilepage.jsx
+        {!isOwnProfile && <button>Follow</button>} */}
           <Avatar
             size="sm"
             variant="circular"
             src={logo || avatar}
             alt="avatar"
           ></Avatar>
-          <div className="flex flex-col ml-4">
-            <p className="ml-4 py-2 font-roboto font-medium text-sm text-gray-700 no-underline tracking-normal leading-none">
+          <div className="flex justify-between w-full">
+            <p className="ml-4 font-roboto font-medium text-sm text-gray-700 no-underline tracking-normal leading-none">
               {email}
             </p>
-            <p className="font-roboto font-medium text-sm text-gray-700 no-underline tracking-normal leading-none">
-              Published: {timestamp}
+            <p className="mr-4 font-roboto font-medium text-sm text-gray-700 no-underline tracking-normal leading-none">
+              {timestamp}
             </p>
           </div>
-          {/* {user?.uid !== uid && (
-            <div
-              onClick={addUser}
-              className="w-full flex justify-end cursor-pointer mr-10"
-            >
-              <img
-                className="hover:bg-blue-100 rounded-xl p-2"
-                src={addFriend}
-                alt="addFriend"
-              ></img>
-            </div>
-          )} */}
         </div>
         <div>
           <p className="ml-4 pb-4 font-roboto font-medium text-sm text-gray-700 no-underline tracking-normal leading-none">
@@ -158,7 +147,10 @@ const PostCard = ({ uid, id, logo, name, email, text, image, timestamp }) => {
             onClick={handleLike}
           >
             <img className="h-8 mr-4" src={like} alt=""></img>
-            {state.likes?.length > 0 && state?.likes?.length}
+            <p className="font-roboto font-medium text-md text-gray-700 no-underline tracking-normal leading-none">
+              Love {""}
+            </p>
+            ({state.likes?.length > 0 && state?.likes?.length})
           </button>
           <div
             className="flex items-center cursor-pointer rounded-lg p-2 hover:bg-gray-10"
@@ -167,7 +159,7 @@ const PostCard = ({ uid, id, logo, name, email, text, image, timestamp }) => {
             <div className="flex items-center cursor-pointer">
               <img className="h-8 mr-4" src={comment} alt="comment"></img>
               <p className="font-roboto font-medium text-md text-gray-700 no-underline tracking-normal leading-none">
-                Comments
+                Comments ({commentCount})
               </p>
             </div>
           </div>

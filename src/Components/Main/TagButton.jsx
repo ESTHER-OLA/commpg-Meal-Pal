@@ -1,102 +1,103 @@
 import React, { useState } from "react";
 
 const TagButton = () => {
-  const [showInput, setShowInput] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const filteredMealNames = ["Pizza", "Burger", "Salad"]; // Replace with your actual data
+  const [pinnedTags, setPinnedTags] = useState([]);
+  const filteredMealNames = ["Pizza", "Burger", "Salad"]; // Sample data
 
   const handleSearchIconClick = () => {
-    setShowInput(true);
+    setShowSearch(true);
   };
 
   const handleSearch = () => {
-    // Implement your search logic here
-    console.log("Search clicked");
+    // Filter the meal names based on the search term
+    const filteredNames = filteredMealNames.filter((name) =>
+      name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    // Update the pinned tags with the filtered names (limit to 3)
+    setPinnedTags(filteredNames.slice(0, 3));
+
+    // Reset search term after search
+    setSearchTerm("");
+    setShowSearch(false); // Hide the search input after search
   };
 
   const handleCancel = () => {
-    setShowInput(false);
+    setShowSearch(false);
+    // Reset search term on cancel
+    setSearchTerm("");
   };
+
   return (
-    <div className="flex flex-col items-stretch">
-      <div className="flex flex-row justify-between py-4 w-full">
-        {" "}
-        <div className="relative">
+    <div className="flex flex-col w-full mt-5 items-center">
+      <div className="flex justify-between w-full items-center">
+        <div className="flex items-center">
           <button
-            onClick={handleSearchIconClick}
-            className="p-2 bg-[#f4f4f4] rounded-full absolute top-0 right-10"
+            className="ml-2 px-2 py-1 text-blue-500 hover:underline"
+            onClick={() => {
+              // Handle "View All" click
+              console.log("View All clicked");
+            }}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-              />
-            </svg>
+            All
           </button>
+          {filteredMealNames.map((name) => (
+            <span
+              key={name}
+              className={`inline-block px-2 py-1 mr-2 ${
+                pinnedTags.includes(name)
+                  ? "bg-yellow-200" // Highlight pinned tags
+                  : name.toLowerCase().includes(searchTerm.toLowerCase())
+                  ? "bg-yellow-200" // Highlight matching results
+                  : "bg-gray-200"
+              } rounded-md`}
+            >
+              {name}
+            </span>
+          ))}
         </div>
-        {showInput && (
-          <div className="fixed inset-0 flex flex-col align-text-top items-center justify-center bg-black bg-opacity-10">
-            <div className="w-full max-w-md bg-black bg-transparent p-4 rounded-md">
-              <input
-                type="text"
-                placeholder="Search for trending post..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="px-4 py-2 rounded-md border border-gray-500 focus:outline-none focus:ring-2 focus:ring-black w-full"
-              />
-              <button
-                onClick={handleSearch}
-                className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md w-25 hidden"
-              >
-                Search
-              </button>
-              <button
-                onClick={handleCancel}
-                className="mt-2 px-2 py-1 text-gray-700 hover:text-gray-800"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        )}
-        {/* Display filtered meal names */}
-        {showInput && (
-          <div className="mt-4">
-            <p>Search results ({filteredMealNames.length} found):</p>
-            {filteredMealNames.map((name) => (
-              <span
-                key={name}
-                className={`inline-block px-2 py-1 mr-2 ${
-                  name.toLowerCase().includes(searchTerm.toLowerCase())
-                    ? "bg-yellow-200" // Highlight matching results
-                    : "bg-gray-200"
-                } rounded-md`}
-              >
-                {name}
-              </span>
-            ))}
-            {filteredMealNames.length > 3 && (
-              <button
-                className="ml-2 px-2 py-1 text-blue-500 hover:underline"
-                onClick={() => {
-                  // Handle "View All" click
-                  console.log("View All clicked");
-                }}
-              >
-                View All
-              </button>
-            )}
-          </div>
-        )}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-6 h-6"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+          />
+        </svg>
       </div>
+      {showSearch && (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-4 rounded-md">
+            <input
+              type="text"
+              placeholder="Search meals..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="p-2 rounded-md border border-gray-500 focus:outline-none focus:ring-2 focus:ring-black w-40"
+            />
+            <button
+              onClick={handleSearch}
+              className="ml-2 px-2 py-1 bg-blue-500 text-white rounded-md hidden"
+            >
+              Submit
+            </button>
+            <button
+              onClick={handleCancel}
+              className="ml-2 px-2 py-1 bg-gray-500 text-white rounded-md"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
