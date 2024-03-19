@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React from "react";
 import Navbar from "../Navbars/Navbar";
-import Main from "../Main/Main";
+import Main from "../Main/PostMain";
 
 const Home = () => {
   return (

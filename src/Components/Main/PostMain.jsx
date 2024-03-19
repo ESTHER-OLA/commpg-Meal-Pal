@@ -36,7 +36,7 @@ import { Alert } from "@material-tailwind/react";
 import PostCard from "./PostCard";
 import TagButton from "./TagButton";
 
-const Main = () => {
+const PostMain = () => {
   // Define and populate filteredMealNames
   const { user, userData } = useContext(AuthContext);
   const text = useRef("");
@@ -58,12 +58,15 @@ const Main = () => {
     e.preventDefault();
     if (text.current.value !== "") {
       try {
+        const name = user?.displayName || userData?.name || "Unknown User";
+        const email = user?.email || userData?.email || "unknown@example.com";
+
         await setDoc(postRef, {
           documentId: document,
           uid: user?.uid || userData?.uid,
           logo: user?.photoURL,
-          name: user?.displayName || userData?.name,
-          email: user?.email || userData?.email,
+          name: name,
+          email: email,
           text: text.current.value,
           image: image,
           timestamp: serverTimestamp(),
@@ -154,7 +157,7 @@ const Main = () => {
           <Avatar
             size="sm"
             variant="circular"
-            src={user?.photoURL || avatar}
+            src={avatar || user?.photoURL}
             alt="avatar"
           ></Avatar>
           <form className="w-full">
@@ -219,7 +222,15 @@ const Main = () => {
           </div>
         </div>
       </div>
-      <TagButton />
+      <TagButton></TagButton>
+      {/* {state.posts.map((post) => (
+        <TagButton
+          key={post.documentId}
+          image={post.image}
+          text={post.text}
+          userPost={post}
+        />
+      ))} */}
       <div className="flex flex-col py-4 w-full">
         {state?.error ? (
           <div className="flex justify-center items-center">
@@ -282,7 +293,7 @@ const Main = () => {
                     image={post?.image}
                     text={post?.text}
                     timestamp={timestampString.trim()} // Display the formatted timestamp
-                  />
+                  ></PostCard>
                 );
               })}
           </div>
@@ -314,4 +325,4 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default PostMain;
