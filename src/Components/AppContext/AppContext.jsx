@@ -21,8 +21,7 @@ import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
 
-//google sign in
-// eslint-disable-next-line react/prop-types
+
 const AppContext = ({ children }) => {
   const collectionUsersRef = collection(db, "users");
   const provider = new GoogleAuthProvider();
